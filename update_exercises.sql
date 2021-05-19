@@ -23,7 +23,7 @@ SET release_date = 1800
 WHERE release_date < 1980;
 
 SELECT * FROM albums
-WHERE release_date < 1800;
+WHERE release_date = 1800;
 
 -- All albums by Michael Jackson
 SELECT * FROM albums
@@ -35,5 +35,5 @@ SET artist = 'Peter Jackson'
 WHERE artist = 'Michael Jackson';
 
 SELECT * FROM albums
-WHERE artist = 'Michael Jackson';
+WHERE artist = 'Peter Jackson';
 
