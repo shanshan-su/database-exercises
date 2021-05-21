@@ -1,21 +1,15 @@
 USE codeup_test_db;
 
 -- The name of all albums by Pink Floyd.
-SELECT 'The name of all albums by Pink Floyd' AS 'Caption';
-
-SELECT name FROM albums
+SELECT name AS 'The name of all albums by Pink Floyd' FROM albums
 WHERE artist = 'Pink Floyd';
 
 -- The year Sgt. Pepper's Lonely Hearts Club Band was released
-SELECT 'The year Sgt. Pepper''s Lonely Hearts Club Band was released' AS 'Caption';
-
-SELECT release_date FROM albums
+SELECT release_date AS 'The year Sgt. Pepper''s Lonely Hearts Club Band was released' FROM albums
 WHERE name = 'Sgt. Pepper''s Lonely Hearts Club Band';
 
 -- The genre for Nevermind
-SELECT 'The genre for Nevermind' AS 'Caption';
-
-SELECT genre FROM albums
+SELECT genre AS 'The genre for Nevermind' FROM albums
 WHERE name = 'Nevermind';
 
 -- Which albums were released in the 1990s
