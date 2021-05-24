@@ -13,6 +13,15 @@ WHERE hire_date = (
 -- 2. Find all the titles held by all employees with the first name Aamod.
 --
 -- 314 total titles, 6 unique titles
+SELECT title
+FROM titles
+WHERE emp_no IN (
+    SELECT emp_no
+    FROM employees
+    WHERE first_name = 'Aamod'
+);  -- 314 rows
+
+-- use GROUP BY to get unique titles
 SELECT title,
        COUNT(title)
 FROM titles
@@ -21,15 +30,25 @@ WHERE emp_no IN (
     FROM employees
     WHERE first_name = 'Aamod'
     )
-GROUP BY title;
+GROUP BY title; -- 6 unique titles
+
+-- use DISTINCT to get unique titles
+SELECT DISTINCT title
+FROM titles
+WHERE emp_no IN (
+    SELECT emp_no
+    FROM employees
+    WHERE first_name = 'Aamod'
+);  -- 6 rows
 
 -- 3. Find all the current department managers that are female.
+-- use to_date = '9999-01-01' or to_date > CURRENT_DATE() or to_date > CURDATE() or to_date > now() etc to get the current
 SELECT first_name, last_name
 FROM employees
 WHERE emp_no IN (
     SELECT emp_no
     FROM dept_manager
-    WHERE to_date > CURRENT_DATE()
+    WHERE to_date > CURRENT_DATE() # to_date = '9999-01-01' or to_date > CURRENT_DATE() or to_date > CURDATE() or to_date > now()
     )
   AND gender = 'F';
 
@@ -51,6 +70,19 @@ WHERE dept_no IN (
           AND gender = 'F'
         )
     );
+
+SELECT dept_name
+FROM departments
+WHERE dept_no IN (
+    SELECT dept_no
+    FROM dept_manager
+    WHERE emp_no IN (
+        SELECT emp_no
+        FROM employees
+        WHERE gender = 'F'
+    )
+    And to_date = '9999-01-01'
+);
 
 -- 2. Find the first and last name of the employee with the highest salary.
 SELECT first_name, last_name
