@@ -113,14 +113,36 @@ WHERE YEAR(de.to_date) = '9999' AND YEAR(s.to_date)  = '9999';
 
 SELECT CONCAT(e.first_name, ' ', e.last_name) AS 'Employee',
        d.dept_name AS 'Department',
-       CONCAT(e.first_name, ' ', e.last_name) AS 'Manager'
+       m.full_name AS 'Manager'
 FROM employees e
 JOIN dept_emp de
   ON de.emp_no = e.emp_no
 JOIN departments d
   ON d.dept_no = de.dept_no
-JOIN dept_manager AS dem
-  ON dem.dept_no = d.dept_no
-WHERE YEAR(dem.to_date) = '9999' AND YEAR(de.to_date) = '9999'
+JOIN dept_manager AS dm
+  ON dm.dept_no = d.dept_no
+JOIN (SELECT e2.emp_no AS emp_no,
+             concat(e2.first_name, ' ', e2.last_name) AS full_name
+      FROM employees e2
+      JOIN dept_manager dm2
+        ON e2.emp_no = dm2.emp_no
+      WHERE YEAR(dm2.to_date) = '9999') m
+  ON m.emp_no = dm.emp_no
+WHERE YEAR(dm.to_date) = '9999' AND YEAR(de.to_date) = '9999'
 ORDER BY d.dept_name, CONCAT(e.first_name, ' ', e.last_name);
 
+
+SELECT CONCAT(e.first_name, ' ', e.last_name) AS 'Employee',
+       d.dept_name AS 'Department',
+       CONCAT(e2.first_name, ' ', e2.last_name) AS 'Manager'
+FROM employees e
+     JOIN dept_emp de
+          ON de.emp_no = e.emp_no
+     JOIN departments d
+          ON d.dept_no = de.dept_no
+     JOIN dept_manager AS dm
+          ON dm.dept_no = d.dept_no
+     LEFT OUTER JOIN employees e2
+        ON e2.emp_no = dm.emp_no
+WHERE YEAR(dm.to_date) = '9999' AND YEAR(de.to_date) = '9999'
+ORDER BY d.dept_name, CONCAT(e.first_name, ' ', e.last_name);
